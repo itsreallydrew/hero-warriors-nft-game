@@ -4,7 +4,7 @@ import {ethers} from 'ethers';
 import {CONTRACT_ADDRESS, transformCharacterData} from '../../constants';
 import myDopeGame from '../../utils/MyDopeGame.json';
 
-const SelectCharacter = ({setCharacterNFt}) => {
+const SelectCharacter = ({setCharacterNFT}) => {
   const [characters, setCharacters] = useState([]);
   const [gameContract, setGameContract] = useState(null);
 
@@ -32,9 +32,11 @@ const SelectCharacter = ({setCharacterNFt}) => {
         const charactersTxn = await gameContract.getAllDefaultCharacters()
         console.log('charactersTxn:', charactersTxn)
 
-        const characters = charactersTxn.map((characterData) => transformCharacterData(characterData))
+        const allCharacters = charactersTxn.map((characterData) => 
+        transformCharacterData(characterData)
+        )
 
-        setCharacters(characters)
+        setCharacters(allCharacters)
       } catch (error) {
         console.error('Something went wrong fetching the characters', error)
       }
@@ -45,10 +47,31 @@ const SelectCharacter = ({setCharacterNFt}) => {
     }
   }, [gameContract])
 
+  console.log(characters)
+
+  // Render methods
+  const renderCharacters = () => 
+    characters.map((character, index) => (
+      <div className='character-item' key={character.name}>
+        <div className='name-container'>
+          <p>{character.name}</p>
+        </div>
+        <img src={character.imageURI} alt={character.name} />
+        <button
+          type='button'
+          className='character-mint-button'
+          // onClick={mintCharacterNFTAction(index)}
+        >{`Mint ${character.name}`}</button>
+      </div>
+    ))
+
 
   return (
     <div className='select-character-container'>
       <h2>Mint your hero. Choose wisely.</h2>
+      {characters && (
+        <div className='character-grid'>{renderCharacters()}</div>
+      )}
     </div>  
   )
 }
