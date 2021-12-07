@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import twitterLogo from './assets/twitter-logo.svg';
 import './App.css';
 import SelectCharacter from './Components/SelectCharacter/SelectCharacter';
-import {CONTRACT_ADDRESS} from './constants';
+import {CONTRACT_ADDRESS, transformCharacterData} from './constants';
 import myDopeGame from './utils/MyDopeGame.json';
 import {ethers} from 'ethers';
 
@@ -98,12 +98,20 @@ useEffect(() => {
     );
 
     const txn = await gameContract.checkIfUserHasNFT();
+    console.log(txn)
     if (txn.name) {
       console.log('User has character NFT')
-      setCharacterNFT(transformCharacterData)
+      setCharacterNFT(transformCharacterData(txn))
+    } else {
+      console.log('No character NFT found')
     }
   }
-})
+
+  if (currentAccount) {
+    console.log('Current Account:', currentAccount)
+    fetchNFTMetadata()
+  }
+}, [currentAccount])
 
   return (
     <div className="App">
