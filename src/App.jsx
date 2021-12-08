@@ -3,6 +3,7 @@ import twitterLogo from './assets/twitter-logo.svg';
 import './App.css';
 import SelectCharacter from './Components/SelectCharacter/SelectCharacter';
 import Arena from './Components/Arena/Arena';
+import LoadingIndicator from './Components/LoadingIndicator/';
 import {CONTRACT_ADDRESS, transformCharacterData} from './constants';
 import myDopeGame from './utils/MyDopeGame.json';
 import {ethers} from 'ethers';
@@ -24,6 +25,7 @@ const checkIfWalletIsConnected = async () => {
 
   if (!ethereum) {
     console.log('Make sure you have Metamask')
+    setIsLoading(false)
     return
   } else {
     console.log('We have the Ethereum object', ethereum)
@@ -41,6 +43,7 @@ const checkIfWalletIsConnected = async () => {
   } catch (error) {
     console.log(error)
   }
+  setIsLoading(false)
 }
 
 const connectWallet = async () => {
@@ -65,6 +68,11 @@ const connectWallet = async () => {
 
 // Render methods
 const renderContent = () => {
+
+  if (isLoading) {
+    return <LoadingIndicator />
+  }
+
   if (!currentAccount) {
     return (
           <div className="connect-wallet-container">
@@ -112,6 +120,8 @@ useEffect(() => {
     } else {
       console.log('No character NFT found')
     }
+
+    setIsLoading(false)
   }
 
   if (currentAccount) {

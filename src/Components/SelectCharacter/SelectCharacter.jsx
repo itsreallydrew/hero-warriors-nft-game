@@ -7,6 +7,7 @@ import myDopeGame from '../../utils/MyDopeGame.json';
 const SelectCharacter = ({setCharacterNFT}) => {
   const [characters, setCharacters] = useState([]);
   const [gameContract, setGameContract] = useState(null);
+  const [mintingCharacter, setMintingCharacter] = useState(false)
 
   const mintCharacterNFT = (characterId) => async () => {
     try {
@@ -15,9 +16,13 @@ const SelectCharacter = ({setCharacterNFT}) => {
         const mintTxn = await gameContract.mintCharacterNFT(characterId)
         await mintTxn.wait()
         console.log('mintTxn:', mintTxn)
+
+        setMintingCharacter(false)
       }
     } catch (error) {
       console.warn('MintCharacter Error:', error)
+
+      setMintingCharacter(false)
     }
   }
 
@@ -101,9 +106,23 @@ const SelectCharacter = ({setCharacterNFT}) => {
   return (
     <div className='select-character-container'>
       <h2>Mint your hero. Choose wisely.</h2>
-      {characters && (
+      {characters.length > 0 && (
         <div className='character-grid'>{renderCharacters()}</div>
       )}
+      {mintingCharacter && (
+        <div className="loading">
+        <div className="indicator">
+          <LoadingIndicator />
+          <p>Minting In Progress...</p>
+        </div>
+        <img
+          src="https://media0.giphy.com/media/iJSpqpVU7L2Ks/giphy.gif?cid=ecf05e4790c573a1c0934909541da0fea20c17df8e285154&rid=giphy.gif&ct=g"
+          alt="Minting loading indicator"
+        />
+      </div>
+      )
+
+      }
     </div>  
   )
 }
