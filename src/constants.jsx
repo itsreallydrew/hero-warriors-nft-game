@@ -1,4 +1,4 @@
-const CONTRACT_ADDRESS = '0x43B3E5A218B3F673B5bE77685Dc4De756Ac46625';
+const CONTRACT_ADDRESS = '0xc0ef218C09411B4F288856BaC33422fd8dCAe944';
 
 // Because I used a uint32 in the Character Attributes struct in my smart contract I didn't need to have the "toNumber()" function on the data being returned. If I was using a uint or uint256 then that function would have been needed
 
