@@ -15,6 +15,7 @@ const App = () => {
 
 const [currentAccount, setCurrentAccount] = useState(null)
 const [characterNFT, setCharacterNFT] = useState(null)
+const [isLoading, setIsLoading] = useState(false)
 
 const checkIfWalletIsConnected = async () => {
   try {
@@ -79,13 +80,14 @@ const renderContent = () => {
   } else if (currentAccount && !characterNFT) {
     return <SelectCharacter setCharacterNFT={setCharacterNFT} />;
   } else if (currentAccount && characterNFT) {
-    return <Arena characterNFT={characterNFT} />;
+    return <Arena characterNFT={characterNFT} setCharacterNFT={setCharacterNFT} />;
   }
 }
 
 
-
+// Use Effects
 useEffect(() => {
+  setIsLoading(true)
   checkIfWalletIsConnected()
 }, [])
 
