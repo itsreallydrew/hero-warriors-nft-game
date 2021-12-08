@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import twitterLogo from './assets/twitter-logo.svg';
 import './App.css';
 import SelectCharacter from './Components/SelectCharacter/SelectCharacter';
+import Arena from './Components/Arena/Arena';
 import {CONTRACT_ADDRESS, transformCharacterData} from './constants';
 import myDopeGame from './utils/MyDopeGame.json';
 import {ethers} from 'ethers';
@@ -77,8 +78,12 @@ const renderContent = () => {
     );
   } else if (currentAccount && !characterNFT) {
     return <SelectCharacter setCharacterNFT={setCharacterNFT} />;
+  } else if (currentAccount && characterNFT) {
+    return <Arena characterNFT={characterNFT} />;
   }
 }
+
+
 
 useEffect(() => {
   checkIfWalletIsConnected()

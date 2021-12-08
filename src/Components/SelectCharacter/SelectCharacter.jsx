@@ -80,7 +80,6 @@ const SelectCharacter = ({setCharacterNFT}) => {
     }
   }, [gameContract])
 
-  console.log(characters)
 
   // Render methods
   const renderCharacters = () => 
